@@ -11,6 +11,8 @@ from create_receipt_gui.headers import draw_table_headers
 from create_receipt_gui.product_rows import draw_product_rows
 from create_receipt_gui.summary_row import draw_summary_row
 from create_receipt_gui.to_box import draw_to_box
+from utils.load_json import load_json
+
 
 def start_billing_app(parent_root=None):
     global billing_root, invoice_no_var, status_var, cust_name_var, cust_addr1_var
@@ -25,7 +27,19 @@ def start_billing_app(parent_root=None):
         "Cotton Bandage (4x3M)": "30059041",
     }
 
+    customers = load_json("data/customers.json")
+    customer_names = [c["Customer Name"] for c in customers.values()]
+    customer_lookup = {c["Customer Name"]: c for c in customers.values()}
     product_entries = []
+
+    def on_customer_select(event=None):
+        cust = customer_lookup.get(selected_customer.get(), {})
+        cust_name_var.set(cust.get("Customer Name", ""))
+        cust_addr1_var.set(cust.get("Address Line 1", ""))
+        cust_addr2_var.set(cust.get("Address Line 2", ""))
+        cust_contact_var.set(cust.get("Contact", ""))
+        cust_gst_var.set(cust.get("GST No", ""))
+        cust_dl_var.set(cust.get("DL No", ""))
 
     def add_product():
         name = product_name_var.get()
@@ -118,11 +132,12 @@ def start_billing_app(parent_root=None):
 
     invoice_no_var = StringVar(value="000")
     status_var = StringVar(value="CREDIT")
-    cust_name_var = StringVar(value="SHREE BALAJI medical")
-    cust_addr1_var = StringVar(value="Shivajinagar")
-    cust_addr2_var = StringVar(value="Mudkhed_431806")
-    cust_contact_var = StringVar(value="7378716170")
-    cust_gst_var = StringVar(value="27AZYPS4323D1ZY")
+    selected_customer = StringVar()
+    cust_name_var = StringVar()
+    cust_addr1_var = StringVar()
+    cust_addr2_var = StringVar()
+    cust_contact_var = StringVar()
+    cust_gst_var = StringVar()
     cust_dl_var = StringVar()
 
     product_name_var = StringVar(value="Cotton Bandage (12x8M)")
@@ -146,8 +161,12 @@ def start_billing_app(parent_root=None):
     # Customer Frame
     frame2 = Frame(billing_root)
     frame2.pack(pady=5)
-    Label(frame2, text="Customer Name:").grid(row=0, column=0)
-    Entry(frame2, textvariable=cust_name_var).grid(row=0, column=1)
+    Label(frame2, text="Select Customer:").grid(row=0, column=0)
+    cust_dropdown = ttk.Combobox(frame2, textvariable=selected_customer, values=customer_names)
+    cust_dropdown.grid(row=0, column=1)
+    cust_dropdown.bind("<<ComboboxSelected>>", on_customer_select)
+    # Label(frame2, text="Customer Name:").grid(row=0, column=0)
+    # Entry(frame2, textvariable=cust_name_var).grid(row=0, column=1)
     Label(frame2, text="Address Line 1:").grid(row=0, column=2)
     Entry(frame2, textvariable=cust_addr1_var).grid(row=0, column=3)
     Label(frame2, text="Address Line 2:").grid(row=0, column=4)
