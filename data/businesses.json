@@ -1,0 +1,26 @@
+{
+    "11266deb-fd9d-449e-87eb-d5269c9235c9": {
+        "Business Name": "Business Name Tested Good",
+        "Addr line 1": "Address Line Test 1",
+        "Addr line 2": "Addr Line Test 2",
+        "Contact": "12456272819",
+        "email": "dawjjhauerthf@gmail.com",
+        "GSTIN": "AUE123H4IE78HDN"
+    },
+    "ce41ae99-ed7b-43f4-a31f-55ee57f4751c": {
+        "Business Name": "BN Test 2",
+        "Addr line 1": "AL 1",
+        "Addr line 2": "AL 2",
+        "Contact": "Con",
+        "email": "Email",
+        "GSTIN": "GST IN"
+    },
+    "8c828685-e0cb-470c-915b-32c41dfedbd8": {
+        "Business Name": "BN Test 3",
+        "Addr line 1": "AL 1",
+        "Addr line 2": "AL 22",
+        "Contact": "Cont 22",
+        "email": "nsh @gmail.com",
+        "GSTIN": "werty234567"
+    }
+}
