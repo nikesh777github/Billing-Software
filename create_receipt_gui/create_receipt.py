@@ -20,6 +20,7 @@ def start_billing_app(parent_root=None):
     global product_name_var, pack_var, batch_var, exp_var
     global mrp_var, qty_var, rate_var, gross_total_var, net_amount_var
     global tree, product_entries
+    global selected_business
 
     # Mock HSN DB
     HSN_DB = {
@@ -30,6 +31,12 @@ def start_billing_app(parent_root=None):
     customers = load_json("data/customers.json")
     customer_names = [c["Customer Name"] for c in customers.values()]
     customer_lookup = {c["Customer Name"]: c for c in customers.values()}
+
+    businesses = load_json("data/businesses.json")
+    business_names = [b["Business Name"] for b in businesses.values()]
+    business_lookup = {b["Business Name"]: b for b in businesses.values()}
+    selected_business = StringVar(value=business_names[0])
+
     product_entries = []
 
     def on_customer_select(event=None):
@@ -88,7 +95,8 @@ def start_billing_app(parent_root=None):
         today = now.strftime("%d-%m-%Y")
         due_date = (now + datetime.timedelta(days=30)).strftime("%d-%m-%Y")
 
-        draw_business_info(c, height)
+        draw_business_info(c, height, business_lookup.get(selected_business.get(), {}))
+
         draw_gst_box(c, height, invoice_no_var.get(), today, due_date, status_var.get())
         draw_to_box(c, height, cust_name_var.get(), cust_addr1_var.get(), cust_addr2_var.get(),
                     cust_contact_var.get(), cust_gst_var.get(), cust_dl_var.get())
@@ -157,6 +165,10 @@ def start_billing_app(parent_root=None):
     Entry(frame1, textvariable=invoice_no_var).grid(row=0, column=1)
     Label(frame1, text="Status:").grid(row=0, column=2)
     ttk.Combobox(frame1, textvariable=status_var, values=["CREDIT", "PENDING"]).grid(row=0, column=3)
+
+    Label(frame1, text="Select Business:").grid(row=0, column=4)
+    ttk.Combobox(frame1, textvariable=selected_business, values=business_names).grid(row=0, column=5)
+
 
     # Customer Frame
     frame2 = Frame(billing_root)
