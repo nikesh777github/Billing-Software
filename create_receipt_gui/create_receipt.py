@@ -12,6 +12,7 @@ from create_receipt_gui.headers import draw_table_headers
 from create_receipt_gui.product_rows import draw_product_rows
 from create_receipt_gui.summary_row import draw_summary_row
 from create_receipt_gui.to_box import draw_to_box
+from utils.inline_edit import enable_inline_editing
 from utils.load_json import load_json
 
 
@@ -225,7 +226,8 @@ def start_billing_app(parent_root=None):
         tree.heading(col, text=col)
         tree.column(col, width=70)
     tree.pack(pady=5)
-
+    # Enable double-click editing
+    enable_inline_editing(tree, product_entries, update_tree)
     # Totals
     frame4 = Frame(billing_root)
     frame4.pack()
