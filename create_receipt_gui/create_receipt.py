@@ -23,34 +23,14 @@ def start_billing_app(parent_root=None):
     global selected_business
 
     # Mock HSN DB
-    HSN_DB = {
-        "Cotton Bandage (12x8M)": "3005040",
-        "Cotton Bandage (4x3M)": "30059041",
-    }
-
-    customers = load_json("data/customers.json")
-    customer_names = [c["Customer Name"] for c in customers.values()]
-    customer_lookup = {c["Customer Name"]: c for c in customers.values()}
-
-    businesses = load_json("data/businesses.json")
-    business_names = [b["Business Name"] for b in businesses.values()]
-    business_lookup = {b["Business Name"]: b for b in businesses.values()}
-    selected_business = StringVar(value=business_names[0])
-
+    # HSN_DB = {
+    #     "Cotton Bandage (12x8M)": "3005040",
+    #     "Cotton Bandage (4x3M)": "30059041",
+    # }
     product_entries = []
-
-    def on_customer_select(event=None):
-        cust = customer_lookup.get(selected_customer.get(), {})
-        cust_name_var.set(cust.get("Customer Name", ""))
-        cust_addr1_var.set(cust.get("Address Line 1", ""))
-        cust_addr2_var.set(cust.get("Address Line 2", ""))
-        cust_contact_var.set(cust.get("Contact", ""))
-        cust_gst_var.set(cust.get("GST No", ""))
-        cust_dl_var.set(cust.get("DL No", ""))
-
     def add_product():
         name = product_name_var.get()
-        hsn = HSN_DB.get(name, "000000")
+        hsn = hsn_var.get()
         pack = pack_var.get()
         batch = batch_var.get()
         exp = exp_var.get()
@@ -85,6 +65,154 @@ def start_billing_app(parent_root=None):
         gross_total_var.set(f"{gross_total:.2f}")
         net_amount_var.set(f"{gross_total:.2f}")
 
+    # GUI Setup
+    # root = Tk()
+    if parent_root:
+        parent_root.withdraw()  # Hide main menu
+
+    billing_root = Toplevel()
+    billing_root.title("Billing Software")
+
+    def go_back_to_main():
+        billing_root.destroy()
+        if parent_root:
+            parent_root.deiconify()  # Show main menu again
+
+    Button(billing_root, text="← Back to Menu", command=go_back_to_main, bg="lightgrey").pack(pady=5)
+
+    billing_root.title("Billing Software")
+
+    invoice_no_var = StringVar(value="000")
+    status_var = StringVar(value="CREDIT")
+
+
+    # Invoice Frame
+    frame1 = Frame(billing_root)
+    frame1.pack(pady=5)
+    Label(frame1, text="Invoice No:").grid(row=0, column=0)
+    Entry(frame1, textvariable=invoice_no_var).grid(row=0, column=1)
+    Label(frame1, text="Status:").grid(row=0, column=2)
+    ttk.Combobox(frame1, textvariable=status_var, values=["PAID", "CREDIT"]).grid(row=0, column=3)
+
+
+    # Business Selection
+    businesses = load_json("data/businesses.json")
+    business_names = [b["Business Name"] for b in businesses.values()]
+    business_lookup = {b["Business Name"]: b for b in businesses.values()}
+    selected_business = StringVar(value=business_names[0])
+    # Business Selection Frame
+    Label(frame1, text="Select Business:").grid(row=0, column=4)
+    ttk.Combobox(frame1, textvariable=selected_business, values=business_names).grid(row=0, column=5)
+
+
+    # Customer Frame
+    selected_customer = StringVar()
+    cust_name_var = StringVar()
+    cust_addr1_var = StringVar()
+    cust_addr2_var = StringVar()
+    cust_contact_var = StringVar()
+    cust_gst_var = StringVar()
+    cust_dl_var = StringVar()
+
+    customers = load_json("data/customers.json")
+    customer_names = [c["Customer Name"] for c in customers.values()]
+    customer_lookup = {c["Customer Name"]: c for c in customers.values()}
+
+    def on_customer_select(event=None):
+        cust = customer_lookup.get(selected_customer.get(), {})
+        cust_name_var.set(cust.get("Customer Name", ""))
+        cust_addr1_var.set(cust.get("Address Line 1", ""))
+        cust_addr2_var.set(cust.get("Address Line 2", ""))
+        cust_contact_var.set(cust.get("Contact", ""))
+        cust_gst_var.set(cust.get("GST No", ""))
+        cust_dl_var.set(cust.get("DL No", ""))
+
+    frame2 = Frame(billing_root)
+    frame2.pack(pady=5)
+    Label(frame2, text="Select Customer:").grid(row=0, column=0)
+    cust_dropdown = ttk.Combobox(frame2, textvariable=selected_customer, values=customer_names)
+    cust_dropdown.grid(row=0, column=1)
+    cust_dropdown.bind("<<ComboboxSelected>>", on_customer_select)
+    # Label(frame2, text="Customer Name:").grid(row=0, column=0)
+    # Entry(frame2, textvariable=cust_name_var).grid(row=0, column=1)
+    Label(frame2, text="Address Line 1:").grid(row=0, column=2)
+    Entry(frame2, textvariable=cust_addr1_var).grid(row=0, column=3)
+    Label(frame2, text="Address Line 2:").grid(row=0, column=4)
+    Entry(frame2, textvariable=cust_addr2_var).grid(row=0, column=5)
+    Label(frame2, text="Contact:").grid(row=1, column=0)
+    Entry(frame2, textvariable=cust_contact_var).grid(row=1, column=1)
+    Label(frame2, text="GST No:").grid(row=1, column=2)
+    Entry(frame2, textvariable=cust_gst_var).grid(row=1, column=3)
+    Label(frame2, text="DL No:").grid(row=2, column=0)
+    Entry(frame2, textvariable=cust_dl_var).grid(row=2, column=1)
+
+
+
+    # Product Frame
+    selected_product = StringVar()
+    product_name_var = StringVar(value="Cotton Bandage (12x8M)")
+    hsn_var = StringVar(value="12345")
+    pack_var = StringVar(value="10")
+    batch_var = StringVar(value="24025")
+    exp_var = StringVar(value="May-28")
+    mrp_var = StringVar(value="100")
+    qty_var = StringVar(value="10")
+    rate_var = StringVar(value="10")
+    gross_total_var = StringVar()
+    net_amount_var = StringVar()
+
+
+    products = load_json("data/products.json")
+    product_names = [c["Product Name"] for c in products.values()]
+    product_lookup = {c["Product Name"]: c for c in products.values()}
+
+    def on_product_select(event=None):
+        prod = product_lookup.get(selected_product.get(), {})
+        product_name_var.set(prod.get("Product Name", ""))
+        hsn_var.set(prod.get("HSN", ""))
+        exp_var.set(prod.get("Exp", ""))
+        mrp_var.set(prod.get("MRP", ""))
+        rate_var.set(prod.get("Rate", ""))
+
+    frame3 = Frame(billing_root)
+    frame3.pack(pady=5)
+    Label(frame3, text="Select Product:").grid(row=0, column=0)
+    product_dropdown = ttk.Combobox(frame3, textvariable=selected_product, values=product_names)
+    product_dropdown.grid(row=0, column=1)
+    product_dropdown.bind("<<ComboboxSelected>>", on_product_select)
+
+    Label(frame3, text="Pack:").grid(row=0, column=2)
+    Entry(frame3, textvariable=pack_var, width=5).grid(row=0, column=3)
+    Label(frame3, text="Batch:").grid(row=0, column=4)
+    Entry(frame3, textvariable=batch_var, width=10).grid(row=0, column=5)
+    Label(frame3, text="Exp:").grid(row=0, column=6)
+    Entry(frame3, textvariable=exp_var, width=10).grid(row=0, column=7)
+    Label(frame3, text="MRP:").grid(row=0, column=8)
+    Entry(frame3, textvariable=mrp_var, width=5).grid(row=0, column=9)
+    Label(frame3, text="Qty:").grid(row=0, column=10)
+    Entry(frame3, textvariable=qty_var, width=5).grid(row=0, column=11)
+    Label(frame3, text="Rate:").grid(row=0, column=12)
+    Entry(frame3, textvariable=rate_var, width=5).grid(row=0, column=13)
+    Button(frame3, text="Add Product", command=add_product).grid(row=0, column=14)
+    Button(frame3, text="Remove Selected", command=remove_selected).grid(row=0, column=15)
+
+    # Product Column view
+    cols = ["S.No", "HSN", "Product", "Pack", "Batch", "Exp", "MRP", "Qty", "GST", "Rate", "Value", "Amount"]
+    tree = ttk.Treeview(billing_root, columns=cols, show='headings')
+    for col in cols:
+        tree.heading(col, text=col)
+        tree.column(col, width=70)
+    tree.pack(pady=5)
+
+    # Totals
+    frame4 = Frame(billing_root)
+    frame4.pack()
+    Label(frame4, text="GROSS TOTAL:").grid(row=0, column=0)
+    Entry(frame4, textvariable=gross_total_var, state="readonly").grid(row=0, column=1)
+    Label(frame4, text="NET AMOUNT:").grid(row=0, column=2)
+    Entry(frame4, textvariable=net_amount_var, state="readonly").grid(row=0, column=3)
+
+    # PDF Generation
     def generate_pdf():
         now = datetime.datetime.now()
         timestamp = now.strftime("%d-%m-%y-%H-%M-%S")
@@ -120,111 +248,6 @@ def start_billing_app(parent_root=None):
 
         c.save()
         messagebox.showinfo("Success", f"Invoice PDF generated as '{filename}'.")
-
-    # GUI Setup
-    # root = Tk()
-    if parent_root:
-        parent_root.withdraw()  # Hide main menu
-
-    billing_root = Toplevel()
-    billing_root.title("Billing Software")
-
-    def go_back_to_main():
-        billing_root.destroy()
-        if parent_root:
-            parent_root.deiconify()  # Show main menu again
-
-    Button(billing_root, text="← Back to Menu", command=go_back_to_main, bg="lightgrey").pack(pady=5)
-
-    billing_root.title("Billing Software")
-
-    invoice_no_var = StringVar(value="000")
-    status_var = StringVar(value="CREDIT")
-    selected_customer = StringVar()
-    cust_name_var = StringVar()
-    cust_addr1_var = StringVar()
-    cust_addr2_var = StringVar()
-    cust_contact_var = StringVar()
-    cust_gst_var = StringVar()
-    cust_dl_var = StringVar()
-
-    product_name_var = StringVar(value="Cotton Bandage (12x8M)")
-    pack_var = StringVar(value="10")
-    batch_var = StringVar(value="24025")
-    exp_var = StringVar(value="May-28")
-    mrp_var = StringVar(value="100")
-    qty_var = StringVar(value="10")
-    rate_var = StringVar(value="10")
-    gross_total_var = StringVar()
-    net_amount_var = StringVar()
-
-    # Invoice Frame
-    frame1 = Frame(billing_root)
-    frame1.pack(pady=5)
-    Label(frame1, text="Invoice No:").grid(row=0, column=0)
-    Entry(frame1, textvariable=invoice_no_var).grid(row=0, column=1)
-    Label(frame1, text="Status:").grid(row=0, column=2)
-    ttk.Combobox(frame1, textvariable=status_var, values=["CREDIT", "PENDING"]).grid(row=0, column=3)
-
-    Label(frame1, text="Select Business:").grid(row=0, column=4)
-    ttk.Combobox(frame1, textvariable=selected_business, values=business_names).grid(row=0, column=5)
-
-
-    # Customer Frame
-    frame2 = Frame(billing_root)
-    frame2.pack(pady=5)
-    Label(frame2, text="Select Customer:").grid(row=0, column=0)
-    cust_dropdown = ttk.Combobox(frame2, textvariable=selected_customer, values=customer_names)
-    cust_dropdown.grid(row=0, column=1)
-    cust_dropdown.bind("<<ComboboxSelected>>", on_customer_select)
-    # Label(frame2, text="Customer Name:").grid(row=0, column=0)
-    # Entry(frame2, textvariable=cust_name_var).grid(row=0, column=1)
-    Label(frame2, text="Address Line 1:").grid(row=0, column=2)
-    Entry(frame2, textvariable=cust_addr1_var).grid(row=0, column=3)
-    Label(frame2, text="Address Line 2:").grid(row=0, column=4)
-    Entry(frame2, textvariable=cust_addr2_var).grid(row=0, column=5)
-    Label(frame2, text="Contact:").grid(row=1, column=0)
-    Entry(frame2, textvariable=cust_contact_var).grid(row=1, column=1)
-    Label(frame2, text="GST No:").grid(row=1, column=2)
-    Entry(frame2, textvariable=cust_gst_var).grid(row=1, column=3)
-    Label(frame2, text="DL No:").grid(row=2, column=0)
-    Entry(frame2, textvariable=cust_dl_var).grid(row=2, column=1)
-
-    # Product Frame
-    frame3 = Frame(billing_root)
-    frame3.pack(pady=5)
-    Label(frame3, text="Product:").grid(row=0, column=0)
-    ttk.Combobox(frame3, textvariable=product_name_var, values=list(HSN_DB.keys())).grid(row=0, column=1)
-    Label(frame3, text="Pack:").grid(row=0, column=2)
-    Entry(frame3, textvariable=pack_var, width=5).grid(row=0, column=3)
-    Label(frame3, text="Batch:").grid(row=0, column=4)
-    Entry(frame3, textvariable=batch_var, width=10).grid(row=0, column=5)
-    Label(frame3, text="Exp:").grid(row=0, column=6)
-    Entry(frame3, textvariable=exp_var, width=10).grid(row=0, column=7)
-    Label(frame3, text="MRP:").grid(row=0, column=8)
-    Entry(frame3, textvariable=mrp_var, width=5).grid(row=0, column=9)
-    Label(frame3, text="Qty:").grid(row=0, column=10)
-    Entry(frame3, textvariable=qty_var, width=5).grid(row=0, column=11)
-    Label(frame3, text="Rate:").grid(row=0, column=12)
-    Entry(frame3, textvariable=rate_var, width=5).grid(row=0, column=13)
-    Button(frame3, text="Add Product", command=add_product).grid(row=0, column=14)
-    Button(frame3, text="Remove Selected", command=remove_selected).grid(row=0, column=15)
-
-    # Treeview
-    cols = ["S.No", "HSN", "Product", "Pack", "Batch", "Exp", "MRP", "Qty", "GST", "Rate", "Value", "Amount"]
-    tree = ttk.Treeview(billing_root, columns=cols, show='headings')
-    for col in cols:
-        tree.heading(col, text=col)
-        tree.column(col, width=70)
-    tree.pack(pady=5)
-
-    # Totals + PDF Button
-    frame4 = Frame(billing_root)
-    frame4.pack()
-    Label(frame4, text="GROSS TOTAL:").grid(row=0, column=0)
-    Entry(frame4, textvariable=gross_total_var, state="readonly").grid(row=0, column=1)
-    Label(frame4, text="NET AMOUNT:").grid(row=0, column=2)
-    Entry(frame4, textvariable=net_amount_var, state="readonly").grid(row=0, column=3)
 
     Button(billing_root, text="Generate PDF", command=generate_pdf).pack(pady=10)
 
