@@ -1,3 +1,4 @@
+import json
 from tkinter import *
 from tkinter import ttk, messagebox
 from reportlab.pdfgen import canvas
@@ -212,8 +213,27 @@ def start_billing_app(parent_root=None):
     Label(frame4, text="NET AMOUNT:").grid(row=0, column=2)
     Entry(frame4, textvariable=net_amount_var, state="readonly").grid(row=0, column=3)
 
+    def save_new_customer():
+        cust_name = selected_customer.get()
+        if cust_name and cust_name not in customer_lookup:
+            new_cust = {
+                "Customer Name": cust_name,
+                "Address Line 1": cust_addr1_var.get(),
+                "Address Line 2": cust_addr2_var.get(),
+                "Contact": cust_contact_var.get(),
+                "GST No": cust_gst_var.get(),
+                "DL No": cust_dl_var.get()
+            }
+
+            customers[cust_name] = new_cust
+            customer_lookup[cust_name] = new_cust
+
+            with open("data/customers.json", "w") as f:
+                json.dump(customers, f, indent=4)
+
     # PDF Generation
     def generate_pdf():
+        save_new_customer()
         now = datetime.datetime.now()
         timestamp = now.strftime("%d-%m-%y-%H-%M-%S")
         filename = f"invoice-{timestamp}.pdf"
