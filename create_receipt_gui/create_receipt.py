@@ -24,21 +24,46 @@ def start_billing_app(parent_root=None):
     global selected_business
 
     product_entries = []
+
     def add_product():
         name = selected_product.get().strip() or product_name_var.get().strip()
-        hsn = hsn_var.get()
-        pack = pack_var.get()
-        batch = batch_var.get()
-        exp = exp_var.get()
+        hsn = hsn_var.get().strip()
+        pack = pack_var.get().strip()
+        batch = batch_var.get().strip()
+        exp = exp_var.get().strip()
         mrp = float(mrp_var.get())
         qty = int(qty_var.get())
         gst = 0.05
         rate = float(rate_var.get())
         value = qty * rate
         amount = value + (value * gst)
-        sr_no = len(product_entries) + 1
-        product_entries.append(
-            [sr_no, hsn, name, pack, batch, exp, mrp, qty, f"{int(gst * 100)}%", rate, value, amount])
+
+        found = False
+        for entry in product_entries:
+            if (entry[2] == name and entry[1] == hsn and entry[4] == batch and
+                    entry[5] == exp and entry[6] == mrp and entry[7] == qty and entry[9] == rate):
+
+                # Only Pack is different → update existing row
+                if entry[3] != pack:
+                    entry[3] = pack
+                    found = True
+                    break
+                else:
+                    # Exact match already exists → update quantity if needed (optional)
+                    messagebox.showinfo("Duplicate", f"Product '{name}' already exists.")
+                    return
+
+        if not found:
+            sr_no = len(product_entries) + 1
+            product_entries.append([
+                sr_no, hsn, name, pack, batch, exp, mrp, qty,
+                f"{int(gst * 100)}%", rate, value, amount
+            ])
+
+        # Reassign serial numbers
+        for i, entry in enumerate(product_entries):
+            entry[0] = i + 1
+
         update_tree()
 
     def remove_selected():
