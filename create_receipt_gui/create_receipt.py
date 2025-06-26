@@ -23,14 +23,9 @@ def start_billing_app(parent_root=None):
     global tree, product_entries
     global selected_business
 
-    # Mock HSN DB
-    # HSN_DB = {
-    #     "Cotton Bandage (12x8M)": "3005040",
-    #     "Cotton Bandage (4x3M)": "30059041",
-    # }
     product_entries = []
     def add_product():
-        name = product_name_var.get()
+        name = selected_product.get().strip() or product_name_var.get().strip()
         hsn = hsn_var.get()
         pack = pack_var.get()
         batch = batch_var.get()
@@ -151,7 +146,7 @@ def start_billing_app(parent_root=None):
 
     # Product Frame
     selected_product = StringVar()
-    product_name_var = StringVar(value="Cotton Bandage (12x8M)")
+    product_name_var = StringVar()
     hsn_var = StringVar(value="12345")
     pack_var = StringVar(value="10")
     batch_var = StringVar(value="24025")
@@ -168,8 +163,9 @@ def start_billing_app(parent_root=None):
     product_lookup = {c["Product Name"]: c for c in products.values()}
 
     def on_product_select(event=None):
-        prod = product_lookup.get(selected_product.get(), {})
-        product_name_var.set(prod.get("Product Name", ""))
+        prod_name = selected_product.get()
+        prod = product_lookup.get(prod_name, {})
+        product_name_var.set(prod.get("Product Name", prod_name))  # fallback to dropdown text
         hsn_var.set(prod.get("HSN", ""))
         exp_var.set(prod.get("Exp", ""))
         mrp_var.set(prod.get("MRP", ""))
@@ -231,9 +227,34 @@ def start_billing_app(parent_root=None):
             with open("data/customers.json", "w") as f:
                 json.dump(customers, f, indent=4)
 
+    def save_new_products():
+        updated = False
+        for entry in product_entries:
+            prod_name = entry[2]
+            if prod_name not in product_lookup:
+                new_product = {
+                    "Product Name": prod_name,
+                    "HSN": entry[1],
+                    "Pack": entry[3],
+                    "Batch": entry[4],
+                    "Exp": entry[5],
+                    "MRP": entry[6],
+                    "Qty/Pack": entry[7],
+                    "GST": entry[8],
+                    "Rate": entry[9]
+                }
+                products[prod_name] = new_product
+                product_lookup[prod_name] = new_product
+                updated = True
+
+        if updated:
+            with open("data/products.json", "w") as f:
+                json.dump(products, f, indent=4)
+
     # PDF Generation
     def generate_pdf():
         save_new_customer()
+        save_new_products()
         now = datetime.datetime.now()
         timestamp = now.strftime("%d-%m-%y-%H-%M-%S")
         filename = f"invoice-{timestamp}.pdf"
