@@ -10,6 +10,8 @@ Done:
 8. Product with blank name shouldn't be allowed to add in bill
 9. if we change product values and then select another product, then all values should change to default for that selected product
 10. Checkbox to generate same bill twice on same A4 paper
+11. if invoice no is not present in record, default 1 should be displayed
+
 
 Todo:
 
@@ -21,3 +23,4 @@ Todo:
 4. User History > store PDF data, info, amount paid and remaining, etc like graph
 5. .exe file for this software
 5.1. PDF generate where .exe is installed
+

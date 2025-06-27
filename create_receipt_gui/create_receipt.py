@@ -370,10 +370,8 @@ def start_billing_app(parent_root=None):
 
     # PDF Generation
     def generate_pdf():
-        update_invoice_no()
         save_new_customer()
         save_new_products()
-
         now = datetime.datetime.now()
         timestamp = now.strftime("%d-%m-%y-%H-%M-%S")
         filename = f"invoice-{timestamp}.pdf"
@@ -407,6 +405,7 @@ def start_billing_app(parent_root=None):
 
         c.save()
         messagebox.showinfo("Success", f"Invoice PDF generated as '{filename}'.")
+        update_invoice_no()
 
     duplicate_bill_var = IntVar()
     Checkbutton(billing_root, text="Duplicate Bill", variable=duplicate_bill_var).pack()
