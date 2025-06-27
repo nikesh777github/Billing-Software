@@ -1,18 +1,10 @@
 {
-    "78078101-4abf-4dde-baa0-e378ff0b8ec3": {
-        "Customer Name": "Customer test 1",
-        "Address Line 1": "Cus Addr Line 1",
-        "Address Line 2": "Cus Addr Line 2",
-        "Contact": "Cus 12345678",
-        "GST No": "SDFGHJ234567FG",
-        "DL No": "GH"
-    },
-    "56a8842b-93de-44d0-8e90-395ed7bbfc82": {
-        "Customer Name": "Cus2 Name Test 2",
-        "Address Line 1": "Cus2 Addr Line 1",
-        "Address Line 2": "Cus2 Addr Line 2",
-        "Contact": "Cus2 Contact 1234",
-        "GST No": "Cus2 GST",
-        "DL No": "Cus 2 DL No"
+    "ghj": {
+        "Customer Name": "ghj",
+        "Address Line 1": "dhaj",
+        "Address Line 2": "mnbvb",
+        "Contact": "7648172",
+        "GST No": "hsgt",
+        "DL No": "shjad"
     }
 }

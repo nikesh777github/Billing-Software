@@ -1,16 +1,13 @@
 {
-    "ee09eb04-024c-4a9a-a74a-cb9dedc16cf8": {
-        "Product Name": "Cotton Bandate Test 01",
-        "HSN": "123456",
-        "Exp": "May-30",
-        "MRP": "199",
-        "Rate": "15"
-    },
-    "233b1e62-9e86-4d50-8c3c-f5a427a2a779": {
-        "Product Name": "Crep bandage 11",
-        "HSN": "987654",
-        "Exp": "Mar-99",
-        "MRP": "98",
-        "Rate": "43"
+    "abcd": {
+        "Product Name": "abcd",
+        "HSN": "12345",
+        "Pack": "10",
+        "Batch": "24025",
+        "Exp": "May-28",
+        "MRP": 100.0,
+        "Qty/Pack": 10,
+        "GST": "5%",
+        "Rate": 10.0
     }
 }

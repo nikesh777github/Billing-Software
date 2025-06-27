@@ -1,12 +1,11 @@
 from tkinter import *
-from tkinter import messagebox
 
 from product_details_gui.product_delete import delete_product
 from product_details_gui.product_form import open_product_form
 from product_details_gui.product_storage import load_products
 
 
-def open_product_window(main_root):
+def open_product_window(parent_root=None):
     window = Toplevel()
     window.title("Manage Products")
     window.geometry("700x500")
@@ -36,10 +35,18 @@ def open_product_window(main_root):
             Button(btn_frame, text="📝 Edit", command=lambda p=pid, d=details: open_product_form(window, refresh_display, d, p)).pack(side=LEFT, padx=5)
             Button(btn_frame, text="🗑️ Delete", command=lambda p=pid: delete_product(p, refresh_display)).pack(side=LEFT)
 
+        # GUI Setup
+        # root = Tk()
+    if parent_root:
+        parent_root.withdraw()  # Hide main menu
+
+    def go_back_to_main():
+        window.destroy()
+        if parent_root:
+            parent_root.deiconify()
     # Buttons at the top
     Button(window, text="➕ Add Product", command=lambda: open_product_form(window, refresh_display)).pack(pady=10)
-    Button(window, text="🔙 Back", command=window.destroy).pack(pady=5)
-
+    Button(window, text="🔙 Back", command=go_back_to_main, bg="lightgrey").pack(pady=5)
     # Scrollable frame
     canvas = Canvas(window)
     scrollbar = Scrollbar(window, orient=VERTICAL, command=canvas.yview)

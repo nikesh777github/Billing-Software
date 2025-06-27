@@ -4,10 +4,11 @@ from add_personal_data_gui.business_form import open_personal_details_form
 from add_personal_data_gui.business_storage import load_businesses, delete_business
 
 
-def open_add_data_window():
+def open_add_data_window(parent_root=None):
     window = Toplevel()
     window.title("Manage Businesses")
     window.geometry("600x400")
+
 
     def refresh_display():
         for widget in display_frame.winfo_children():
@@ -33,6 +34,17 @@ def open_add_data_window():
 
             Button(btn_frame, text="📝 Edit", command=lambda b=bid, d=details: open_personal_details_form(window, refresh_display, d, b)).pack(side=LEFT, padx=5)
             Button(btn_frame, text="🗑️ Delete", command=lambda b=bid: delete_business(b, refresh_display)).pack(side=LEFT)
+
+    # GUI Setup
+    # root = Tk()
+    if parent_root:
+        parent_root.withdraw()  # Hide main menu
+
+    def go_back_to_main():
+        window.destroy()
+        if parent_root:
+            parent_root.deiconify()  # Show main menu again
+    Button(window, text="← Back to Menu", command=go_back_to_main, bg="lightgrey").pack(pady=5)
 
     Button(window, text="➕ Add Business Details", command=lambda: open_personal_details_form(window, refresh_display)).pack(pady=10)
 

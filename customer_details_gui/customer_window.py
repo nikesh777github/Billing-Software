@@ -5,7 +5,7 @@ from customer_details_gui.customer_form import open_customer_form
 from customer_details_gui.customer_storage import load_customers
 
 
-def open_customer_window(main_root):
+def open_customer_window(parent_root=None):
     window = Toplevel()
     window.title("Manage Customers")
     window.geometry("700x500")
@@ -35,8 +35,18 @@ def open_customer_window(main_root):
             Button(btn_frame, text="📝 Edit", command=lambda c=cid, d=details: open_customer_form(window, refresh_display, d, c)).pack(side=LEFT, padx=5)
             Button(btn_frame, text="🗑️ Delete", command=lambda c=cid: delete_customer(c, refresh_display)).pack(side=LEFT)
 
+    # GUI Setup
+    # root = Tk()
+    if parent_root:
+        parent_root.withdraw()  # Hide main menu
+
+    def go_back_to_main():
+        window.destroy()
+        if parent_root:
+            parent_root.deiconify()  # Show main menu again
+
+    Button(window, text="🔙 Back", command=go_back_to_main, bg="lightgrey").pack(pady=5)
     Button(window, text="➕ Add Customer", command=lambda: open_customer_form(window, refresh_display)).pack(pady=10)
-    Button(window, text="🔙 Back", command=window.destroy).pack(pady=5)
 
     canvas = Canvas(window)
     scrollbar = Scrollbar(window, orient=VERTICAL, command=canvas.yview)
