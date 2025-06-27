@@ -5,12 +5,11 @@ Done:
 3. When we are adding product or customer or create-receipt, it should open in existing tab not in new tab, give back button to every tab
 4. Net Amount should be displayed slightly lower
 5. Signature and QR image
-
+6. Selected Business Details should be visible in create-receipt tab
 
 
 Todo:
 
-1. Selected Business Details should be visible in create-receipt tab
 2. HSN checkbox for multiple values, if more than 3 values, give dropdown
 3. Increase GST Invoice box font
 4. Products values keep in center
