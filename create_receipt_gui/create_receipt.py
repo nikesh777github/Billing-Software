@@ -142,14 +142,7 @@ def start_billing_app(parent_root=None):
     bus_dropdown.grid(row=0, column=1)
     bus_dropdown.bind("<<ComboboxSelected>>", on_business_select)
 
-    # Displaying Business Values on Create Receipt
-    # Entry(frame1, textvariable=bus_name).grid(row=1, column=0)
-    # Entry(frame1, textvariable=adr_l1).grid(row=2, column=0)
-    # Entry(frame1, textvariable=adr_l2).grid(row=3, column=0)
-    # Entry(frame1, textvariable=contact).grid(row=4, column=0)
-    # Entry(frame1, textvariable=email).grid(row=5, column=0)
-    # Entry(frame1, textvariable=gst).grid(row=6, column=0)
-    # Business details (read-only)
+    # Displaying Business Values on Create Receipt (read-only)
     ttk.Label(frame1, text="Business Name:").grid(row=1, column=0, sticky="w")
     ttk.Entry(frame1, textvariable=bus_name, state="readonly", width=30).grid(row=1, column=1, padx=5, pady=2)
 
