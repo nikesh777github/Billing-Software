@@ -30,6 +30,10 @@ def start_billing_app(parent_root=None):
 
     def add_product():
         name = selected_product.get().strip() or product_name_var.get().strip()
+
+        if not name:
+            return
+
         hsn = hsn_var.get().strip()
         pack = pack_var.get().strip()
         batch = batch_var.get().strip()
@@ -243,11 +247,26 @@ def start_billing_app(parent_root=None):
     product_names = [c["Product Name"] for c in products.values()]
     product_lookup = {c["Product Name"]: c for c in products.values()}
 
+    def refresh_product_fields():
+        prod_name = selected_product.get()
+        prod = product_lookup.get(prod_name, {})
+
+        product_name_var.set(prod.get("Product Name", prod_name))  # fallback
+        hsn_var.set(prod.get("HSN", ""))
+        pack_var.set(prod.get("Pack", ""))
+        batch_var.set(prod.get("Batch", ""))
+        exp_var.set(prod.get("Exp", ""))
+        mrp_var.set(prod.get("MRP", ""))
+        qty_var.set("1")  # reset to 1 or prod.get("Qty/Pack", "") if you store it
+        rate_var.set(prod.get("Rate", ""))
+
     def on_product_select(event=None):
         prod_name = selected_product.get()
         prod = product_lookup.get(prod_name, {})
         product_name_var.set(prod.get("Product Name", prod_name))  # fallback to dropdown text
         hsn_var.set(prod.get("HSN", ""))
+        pack_var.set(prod.get("Pack", ""))
+        batch_var.set(prod.get("Batch", ""))
         exp_var.set(prod.get("Exp", ""))
         mrp_var.set(prod.get("MRP", ""))
         rate_var.set(prod.get("Rate", ""))
@@ -273,7 +292,7 @@ def start_billing_app(parent_root=None):
     Entry(frame3, textvariable=rate_var, width=5).grid(row=0, column=13)
     Button(frame3, text="Add Product", command=add_product).grid(row=0, column=14)
     Button(frame3, text="Remove Selected", command=remove_selected).grid(row=0, column=15)
-
+    Button(frame3, text="🔄", command=refresh_product_fields).grid(row=0, column=16)
     # Product Column view
     cols = ["S.No", "HSN", "Product", "Pack", "Batch", "Exp", "MRP", "Qty", "GST", "Rate", "Value", "Amount"]
     tree = ttk.Treeview(billing_root, columns=cols, show='headings')
