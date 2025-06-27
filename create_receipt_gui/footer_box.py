@@ -1,6 +1,11 @@
 from reportlab.lib import colors
 
+from utils.upload_img import draw_footer_image
+
+
 def draw_footer_box(c, x_positions, col_widths, y, net_amount):
+    sign_img_path = r"C:\Users\nikes\Downloads\Saurav-sign.png"
+    qr_img_path = r"C:\Users\nikes\Downloads\Saurav-scanner.jpeg"
     box_height = 90
     box_y = y - 10 - box_height
     box_x = x_positions[0]
@@ -60,5 +65,8 @@ def draw_footer_box(c, x_positions, col_widths, y, net_amount):
     # Authorised Signatory (moved slightly higher)
     c.setFont("Helvetica-Oblique", 9)
     c.drawCentredString(box_x + box_width / 2, box_y + 10, "Authorised Signatory")
+
+    # Draw footer image from external function
+    draw_footer_image(c, box_x+40, box_y+20, box_width/2, sign_img_path)
 
     return box_y
