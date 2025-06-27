@@ -7,14 +7,17 @@ Done:
 5. Signature and QR image
 6. Selected Business Details should be visible in create-receipt tab
 7. Increase Invoice Number if bill generates, invoice number can be different for different businesses
+8. Product with blank name shouldn't be allowed to add in bill
+9. if we change product values and then select another product, then all values should change to default for that selected product
+10. Checkbox to generate same bill twice on same A4 paper
 
 Todo:
-1. Product with blank name shouldn't be allowed to add in bill
-2. HSN checkbox for multiple values, if more than 3 values, give dropdown
-3. Increase GST Invoice box font
-4. Products values keep in center
-5. User History > store PDF data, info, amount paid and remaining, etc like graph
-6. Checkbox to generate same bill twice on same A4 paper
-7. .exe file for this software
-7.1. PDF generate where .exe is installed
-8. if we change product values and then select another product, then all values should change to default for that selected product
+
+1. Show HSN values on right side, for customer info n create_recipt page
+    e.g.    HSN     GST %
+            35035   5%
+2. Increase GST Invoice box font
+3. Products values keep in center
+4. User History > store PDF data, info, amount paid and remaining, etc like graph
+5. .exe file for this software
+5.1. PDF generate where .exe is installed
