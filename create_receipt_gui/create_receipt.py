@@ -14,6 +14,7 @@ from create_receipt_gui.headers import draw_table_headers
 from create_receipt_gui.product_rows import draw_product_rows
 from create_receipt_gui.summary_row import draw_summary_row
 from create_receipt_gui.to_box import draw_to_box
+from customer_details_gui.customer_storage import update_customer_history_and_pending
 from utils.inline_edit import enable_inline_editing
 from utils.load_json import load_json
 
@@ -25,6 +26,7 @@ def start_billing_app(parent_root=None):
     global mrp_var, qty_var, rate_var, gross_total_var, net_amount_var
     global tree, product_entries
     global selected_business
+
 
     product_entries = []
 
@@ -250,7 +252,6 @@ def start_billing_app(parent_root=None):
     def refresh_product_fields():
         prod_name = selected_product.get()
         prod = product_lookup.get(prod_name, {})
-
         product_name_var.set(prod.get("Product Name", prod_name))  # fallback
         hsn_var.set(prod.get("HSN", ""))
         pack_var.set(prod.get("Pack", ""))
@@ -372,6 +373,8 @@ def start_billing_app(parent_root=None):
     def generate_pdf():
         save_new_customer()
         save_new_products()
+        if not cust_name_var.get():
+            cust_name_var.set(selected_customer.get())
         now = datetime.datetime.now()
         timestamp = now.strftime("%d-%m-%y-%H-%M-%S")
         filename = f"invoice-{timestamp}.pdf"
@@ -406,7 +409,13 @@ def start_billing_app(parent_root=None):
         c.save()
         messagebox.showinfo("Success", f"Invoice PDF generated as '{filename}'.")
         update_invoice_no()
-
+        # After save_new_customer()
+        update_customer_history_and_pending(
+            cust_name_var.get(),  # Customer Name
+            invoice_no.get(),  # Invoice Number
+            status_var.get(),  # Status (CREDIT / PAID)
+            float(net_amount_var.get())  # Final Net Amount
+        )
     duplicate_bill_var = IntVar()
     Checkbutton(billing_root, text="Duplicate Bill", variable=duplicate_bill_var).pack()
 
