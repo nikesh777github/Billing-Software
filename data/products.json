@@ -9,5 +9,38 @@
         "Qty/Pack": 10,
         "GST": "5%",
         "Rate": 10.0
+    },
+    "": {
+        "Product Name": "",
+        "HSN": "12345",
+        "Pack": "10",
+        "Batch": "24025",
+        "Exp": "May-28",
+        "MRP": 100.0,
+        "Qty/Pack": 10,
+        "GST": "5%",
+        "Rate": 10.0
+    },
+    "sdssf": {
+        "Product Name": "sdssf",
+        "HSN": "12345",
+        "Pack": "10",
+        "Batch": "24025",
+        "Exp": "May-28",
+        "MRP": 100.0,
+        "Qty/Pack": 10,
+        "GST": "5%",
+        "Rate": 10.0
+    },
+    "sdjhadshd": {
+        "Product Name": "sdjhadshd",
+        "HSN": "12345",
+        "Pack": "10",
+        "Batch": "24025",
+        "Exp": "May-28",
+        "MRP": 100.0,
+        "Qty/Pack": 10,
+        "GST": "5%",
+        "Rate": 10.0
     }
 }

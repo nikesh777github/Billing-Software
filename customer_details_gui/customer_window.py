@@ -8,7 +8,7 @@ from customer_details_gui.customer_storage import load_customers
 def open_customer_window(parent_root=None):
     window = Toplevel()
     window.title("Manage Customers")
-    window.geometry("700x500")
+    window.geometry("1200x600")
 
     def refresh_display():
         for widget in display_frame.winfo_children():

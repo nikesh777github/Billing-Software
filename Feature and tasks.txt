@@ -3,8 +3,8 @@ Done:
 1. New Customer / product added in create-receipt gets added in DB
 2. Bug fixed- New row created for same product is solved
 3. When we are adding product or customer or create-receipt, it should open in existing tab not in new tab, give back button to every tab
-5. Net Amount should be displayed slightly lower
-6. Signature and QR image
+4. Net Amount should be displayed slightly lower
+5. Signature and QR image
 
 
 

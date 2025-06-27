@@ -94,6 +94,8 @@ def start_billing_app(parent_root=None):
 
     billing_root = Toplevel()
     billing_root.title("Billing Software")
+    # window.title("Manage Businesses")
+    billing_root.geometry("1200x600")
 
     def go_back_to_main():
         billing_root.destroy()
@@ -108,24 +110,70 @@ def start_billing_app(parent_root=None):
     status_var = StringVar(value="CREDIT")
 
 
-    # Invoice Frame
     frame1 = Frame(billing_root)
     frame1.pack(pady=5)
-    Label(frame1, text="Invoice No:").grid(row=0, column=0)
-    Entry(frame1, textvariable=invoice_no_var).grid(row=0, column=1)
-    Label(frame1, text="Status:").grid(row=0, column=2)
-    ttk.Combobox(frame1, textvariable=status_var, values=["PAID", "CREDIT"]).grid(row=0, column=3)
-
 
     # Business Selection
+    bus_name = StringVar()
+    adr_l1 = StringVar()
+    adr_l2 = StringVar()
+    contact = StringVar()
+    email = StringVar()
+    gst = StringVar()
+
+    def on_business_select(event=None):
+        bus = business_lookup.get(selected_business.get(), {})
+        bus_name.set(bus.get("Business Name", ""))
+        adr_l1.set(bus.get("Addr line 1", ""))
+        adr_l2.set(bus.get("Addr line 2", ""))
+        contact.set(bus.get("Contact", ""))
+        email.set(bus.get("email", ""))
+        gst.set(bus.get("GSTIN", ""))
+
+
     businesses = load_json("data/businesses.json")
     business_names = [b["Business Name"] for b in businesses.values()]
     business_lookup = {b["Business Name"]: b for b in businesses.values()}
     selected_business = StringVar(value=business_names[0])
     # Business Selection Frame
-    Label(frame1, text="Select Business:").grid(row=0, column=4)
-    ttk.Combobox(frame1, textvariable=selected_business, values=business_names).grid(row=0, column=5)
+    Label(frame1, text="Select Business:").grid(row=0, column=0)
+    # ttk.Combobox(frame1, textvariable=selected_business, values=business_names).grid(row=0, column=1)
+    bus_dropdown = ttk.Combobox(frame1, textvariable=selected_business, values=business_names)
+    bus_dropdown.grid(row=0, column=1)
+    bus_dropdown.bind("<<ComboboxSelected>>", on_business_select)
 
+    # Displaying Business Values on Create Receipt
+    # Entry(frame1, textvariable=bus_name).grid(row=1, column=0)
+    # Entry(frame1, textvariable=adr_l1).grid(row=2, column=0)
+    # Entry(frame1, textvariable=adr_l2).grid(row=3, column=0)
+    # Entry(frame1, textvariable=contact).grid(row=4, column=0)
+    # Entry(frame1, textvariable=email).grid(row=5, column=0)
+    # Entry(frame1, textvariable=gst).grid(row=6, column=0)
+    # Business details (read-only)
+    ttk.Label(frame1, text="Business Name:").grid(row=1, column=0, sticky="w")
+    ttk.Entry(frame1, textvariable=bus_name, state="readonly", width=30).grid(row=1, column=1, padx=5, pady=2)
+
+    ttk.Label(frame1, text="Address Line 1:").grid(row=2, column=0, sticky="w")
+    ttk.Entry(frame1, textvariable=adr_l1, state="readonly", width=30).grid(row=2, column=1, padx=5, pady=2)
+
+    ttk.Label(frame1, text="Address Line 2:").grid(row=3, column=0, sticky="w")
+    ttk.Entry(frame1, textvariable=adr_l2, state="readonly", width=30).grid(row=3, column=1, padx=5, pady=2)
+
+    ttk.Label(frame1, text="Contact:").grid(row=4, column=0, sticky="w")
+    ttk.Entry(frame1, textvariable=contact, state="readonly", width=30).grid(row=4, column=1, padx=5, pady=2)
+
+    ttk.Label(frame1, text="Email:").grid(row=5, column=0, sticky="w")
+    ttk.Entry(frame1, textvariable=email, state="readonly", width=30).grid(row=5, column=1, padx=5, pady=2)
+
+    ttk.Label(frame1, text="GSTIN:").grid(row=6, column=0, sticky="w")
+    ttk.Entry(frame1, textvariable=gst, state="readonly", width=30).grid(row=6, column=1, padx=5, pady=2)
+
+
+    # Invoice Frame
+    Label(frame1, text="Invoice No:").grid(row=0, column=2)
+    Entry(frame1, textvariable=invoice_no_var).grid(row=0, column=3)
+    Label(frame1, text="Status:").grid(row=1, column=2)
+    ttk.Combobox(frame1, textvariable=status_var, values=["PAID", "CREDIT"]).grid(row=1, column=3)
 
     # Customer Frame
     selected_customer = StringVar()
@@ -149,24 +197,24 @@ def start_billing_app(parent_root=None):
         cust_gst_var.set(cust.get("GST No", ""))
         cust_dl_var.set(cust.get("DL No", ""))
 
-    frame2 = Frame(billing_root)
-    frame2.pack(pady=5)
-    Label(frame2, text="Select Customer:").grid(row=0, column=0)
-    cust_dropdown = ttk.Combobox(frame2, textvariable=selected_customer, values=customer_names)
-    cust_dropdown.grid(row=0, column=1)
+    # frame2 = Frame(billing_root)
+    # frame2.pack(pady=5)
+    Label(frame1, text="Select Customer:").grid(row=0, column=5)
+    cust_dropdown = ttk.Combobox(frame1, textvariable=selected_customer, values=customer_names)
+    cust_dropdown.grid(row=0, column=6)
     cust_dropdown.bind("<<ComboboxSelected>>", on_customer_select)
     # Label(frame2, text="Customer Name:").grid(row=0, column=0)
     # Entry(frame2, textvariable=cust_name_var).grid(row=0, column=1)
-    Label(frame2, text="Address Line 1:").grid(row=0, column=2)
-    Entry(frame2, textvariable=cust_addr1_var).grid(row=0, column=3)
-    Label(frame2, text="Address Line 2:").grid(row=0, column=4)
-    Entry(frame2, textvariable=cust_addr2_var).grid(row=0, column=5)
-    Label(frame2, text="Contact:").grid(row=1, column=0)
-    Entry(frame2, textvariable=cust_contact_var).grid(row=1, column=1)
-    Label(frame2, text="GST No:").grid(row=1, column=2)
-    Entry(frame2, textvariable=cust_gst_var).grid(row=1, column=3)
-    Label(frame2, text="DL No:").grid(row=2, column=0)
-    Entry(frame2, textvariable=cust_dl_var).grid(row=2, column=1)
+    Label(frame1, text="Address Line 1:").grid(row=1, column=5)
+    Entry(frame1, textvariable=cust_addr1_var).grid(row=1, column=6)
+    Label(frame1, text="Address Line 2:").grid(row=2, column=5)
+    Entry(frame1, textvariable=cust_addr2_var).grid(row=2, column=6)
+    Label(frame1, text="Contact:").grid(row=3, column=5)
+    Entry(frame1, textvariable=cust_contact_var).grid(row=3, column=6)
+    Label(frame1, text="GST No:").grid(row=4, column=5)
+    Entry(frame1, textvariable=cust_gst_var).grid(row=4, column=6)
+    Label(frame1, text="DL No:").grid(row=5, column=5)
+    Entry(frame1, textvariable=cust_dl_var).grid(row=5, column=6)
 
 
 

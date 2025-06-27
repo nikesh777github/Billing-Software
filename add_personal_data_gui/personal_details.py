@@ -7,7 +7,7 @@ from add_personal_data_gui.business_storage import load_businesses, delete_busin
 def open_add_data_window(parent_root=None):
     window = Toplevel()
     window.title("Manage Businesses")
-    window.geometry("600x400")
+    window.geometry("1200x600")
 
 
     def refresh_display():

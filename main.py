@@ -8,7 +8,7 @@ from product_details_gui.product_window import open_product_window
 def main_menu():
     root = Tk()
     root.title("Main Menu")
-    root.geometry("600x400")
+    root.geometry("1200x600")
 
     Button(root, text="🧾 Create Receipt", width=30, command=lambda: start_billing_app(root)).pack(pady=10)
     Button(root, text="📦 Business Details", width=30, command=lambda: open_add_data_window(root)).pack(pady=10)
