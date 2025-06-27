@@ -2,20 +2,19 @@ Done:
 
 1. New Customer / product added in create-receipt gets added in DB
 2. Bug fixed- New row created for same product is solved
-
+2. When we are adding product or customer or create-receipt, it should open in existing tab not in new tab, give back button to every tab
+6. Net Amount should be displayed slightly lower
+8. Signature and QR image
 
 
 
 Todo:
 
 1. Selected Business Details should be visible in create-receipt tab
-2. When we are adding product or customer or create-receipt, it should open in existing tab not in new tab, give back button to every tab
 3. HSN checkbox for multiple values, if more than 3 values, give dropdown
 4. Increase GST Invoice box font
 5. Products values keep in center
-6. Net Amount should be displayed slightly lower
 7. User History > store PDF data, info, amount paid and remaining, etc like graph
-8. Signature and QR image
 9. Checkbox to generate same bill twice on same A4 paper
 10. .exe file for this software
 10.1. PDF generate where .exe is installed
