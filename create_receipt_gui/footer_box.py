@@ -28,8 +28,8 @@ def draw_footer_box(c, x_positions, col_widths, y, net_amount):
         "Prescribed Sales Tax ",
         "declarations will be given."
     ]
-    left_x = box_x + 10
-    left_y = box_y + box_height - 11
+    left_x = box_x + 5
+    left_y = box_y + box_height - 9
     for line in left_text:
         c.drawString(left_x, left_y, line)
         left_y -= 8
@@ -68,7 +68,7 @@ def draw_footer_box(c, x_positions, col_widths, y, net_amount):
     c.drawCentredString(box_x + box_width / 2, box_y + 10, "Authorised Signatory")
 
     # Add Sign
-    draw_footer_image(c, box_x+40, box_y+20, box_width/2, sign_img_path)
+    draw_footer_image(c, box_x + 230, box_y+10, 90, sign_img_path, height=60)
     # Add Scanner
-    draw_footer_image(c, box_x + 90, box_y + 20, 90, qr_img_path)
+    draw_footer_image(c, box_x + 105, box_y+5, 90, qr_img_path, height=60)
     return box_y
