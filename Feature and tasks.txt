@@ -6,10 +6,10 @@ Done:
 4. Net Amount should be displayed slightly lower
 5. Signature and QR image
 6. Selected Business Details should be visible in create-receipt tab
-
+7. Increase Invoice Number if bill generates, invoice number can be different for different businesses
 
 Todo:
-
+1. Product with blank name shouldn't be allowed to add in bill
 2. HSN checkbox for multiple values, if more than 3 values, give dropdown
 3. Increase GST Invoice box font
 4. Products values keep in center
@@ -17,4 +17,4 @@ Todo:
 6. Checkbox to generate same bill twice on same A4 paper
 7. .exe file for this software
 7.1. PDF generate where .exe is installed
-
+8. if we change product values and then select another product, then all values should change to default for that selected product

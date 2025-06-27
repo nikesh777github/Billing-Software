@@ -354,6 +354,7 @@ def start_billing_app(parent_root=None):
         update_invoice_no()
         save_new_customer()
         save_new_products()
+
         now = datetime.datetime.now()
         timestamp = now.strftime("%d-%m-%y-%H-%M-%S")
         filename = f"invoice-{timestamp}.pdf"
@@ -363,31 +364,33 @@ def start_billing_app(parent_root=None):
         today = now.strftime("%d-%m-%Y")
         due_date = (now + datetime.timedelta(days=30)).strftime("%d-%m-%Y")
 
-        draw_business_info(c, height, business_lookup.get(selected_business.get(), {}))
+        repeat = 2 if duplicate_bill_var.get() else 1
+        section_height = height // repeat
 
-        draw_gst_box(c, height, invoice_no.get(), today, due_date, status_var.get())
-        draw_to_box(c, height, cust_name_var.get(), cust_addr1_var.get(), cust_addr2_var.get(),
-                    cust_contact_var.get(), cust_gst_var.get(), cust_dl_var.get())
-
-        # Table column widths and positions
-        col_widths = [30, 40, 120, 30, 35, 40, 40, 40, 25, 40, 40, 50]  # Increased Product Name width (index 2)
+        col_widths = [30, 40, 120, 30, 35, 40, 40, 40, 25, 40, 40, 50]
         x_positions = [30]
         for w in col_widths[:-1]:
             x_positions.append(x_positions[-1] + w)
 
-        start_y = height - 125
+        for i in range(repeat):
+            section_top = height - (i * section_height)
+            start_y = section_top - 125
 
-        draw_table_headers(c, x_positions, col_widths, start_y)
-        end_y = draw_product_rows(c, product_entries, x_positions, col_widths, start_y)
-        end_y = draw_summary_row(c, product_entries, x_positions, col_widths, end_y)
-        end_y = draw_footer_box(c, x_positions, col_widths, end_y, net_amount_var.get())
-        # Totals
-        # c.setFont("Helvetica-Bold", 9)
-        # c.drawString(400, end_y - 10, f"GROSS TOTAL: ₹ {gross_total_var.get()}")
-        # c.drawString(400, end_y - 30, f"NET AMOUNT: ₹ {net_amount_var.get()}")
+            draw_business_info(c, section_top, business_lookup.get(selected_business.get(), {}))
+            draw_gst_box(c, section_top, invoice_no.get(), today, due_date, status_var.get())
+            draw_to_box(c, section_top, cust_name_var.get(), cust_addr1_var.get(), cust_addr2_var.get(),
+                        cust_contact_var.get(), cust_gst_var.get(), cust_dl_var.get())
+
+            draw_table_headers(c, x_positions, col_widths, start_y)
+            end_y = draw_product_rows(c, product_entries, x_positions, col_widths, start_y)
+            end_y = draw_summary_row(c, product_entries, x_positions, col_widths, end_y)
+            draw_footer_box(c, x_positions, col_widths, end_y, net_amount_var.get())
 
         c.save()
         messagebox.showinfo("Success", f"Invoice PDF generated as '{filename}'.")
+
+    duplicate_bill_var = IntVar()
+    Checkbutton(billing_root, text="Duplicate Bill", variable=duplicate_bill_var).pack()
 
     Button(billing_root, text="Generate PDF", command=generate_pdf).pack(pady=10)
 
