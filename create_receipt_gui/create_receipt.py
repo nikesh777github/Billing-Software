@@ -377,7 +377,7 @@ def start_billing_app(parent_root=None):
             cust_name_var.set(selected_customer.get())
         now = datetime.datetime.now()
         timestamp = now.strftime("%d-%m-%y-%H-%M-%S")
-        filename = f"invoice-{timestamp}.pdf"
+        filename = f"{cust_name_var.get()}-{timestamp}.pdf"
         c = canvas.Canvas(filename, pagesize=A4)
 
         width, height = A4

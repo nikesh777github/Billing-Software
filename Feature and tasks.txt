@@ -23,4 +23,4 @@ Todo:
 4. User History > store PDF data, info, amount paid and remaining, etc like graph
 5. .exe file for this software
 5.1. PDF generate where .exe is installed
-
+6. if customer name is blank don't generate pdf
