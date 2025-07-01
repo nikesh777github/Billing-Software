@@ -12,8 +12,7 @@ Done:
 10. Checkbox to generate same bill twice on same A4 paper
 11. if invoice no is not present in record, default 1 should be displayed
 12. Increase GST Invoice box font
-
-
+13. Can change GST% at time of entering product, just press enter after editing HSN
 
 Todo:
 
@@ -25,3 +24,4 @@ Todo:
 5. .exe file for this software
 5.1. PDF generate where .exe is installed
 6. if customer name is blank don't generate pdf
+7. While adding product GST % symbol should not be visible in editable box, show in headline as GST(%) only

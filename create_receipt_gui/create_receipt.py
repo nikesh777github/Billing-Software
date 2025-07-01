@@ -23,7 +23,7 @@ def start_billing_app(parent_root=None):
     global billing_root, status_var, cust_name_var, cust_addr1_var
     global cust_addr2_var, cust_contact_var, cust_gst_var, cust_dl_var
     global product_name_var, pack_var, batch_var, exp_var
-    global mrp_var, qty_var, rate_var, gross_total_var, net_amount_var
+    global mrp_var, qty_var, gst_prod_var, rate_var, gross_total_var, net_amount_var
     global tree, product_entries
     global selected_business
 
@@ -42,10 +42,10 @@ def start_billing_app(parent_root=None):
         exp = exp_var.get().strip()
         mrp = float(mrp_var.get())
         qty = int(qty_var.get())
-        gst = 0.05
+        gst_add_product = float(gst_prod_var.get())
         rate = float(rate_var.get())
         value = qty * rate
-        amount = value + (value * gst)
+        amount = value + (value * (gst_add_product/100))
 
         found = False
         for entry in product_entries:
@@ -66,7 +66,7 @@ def start_billing_app(parent_root=None):
             sr_no = len(product_entries) + 1
             product_entries.append([
                 sr_no, hsn, name, pack, batch, exp, mrp, qty,
-                f"{int(gst * 100)}%", rate, value, amount
+                f"{gst_add_product}%", rate, value, amount
             ])
 
         # Reassign serial numbers
@@ -234,43 +234,34 @@ def start_billing_app(parent_root=None):
     # Product Frame
     selected_product = StringVar()
     product_name_var = StringVar()
-    hsn_var = StringVar(value="12345")
-    pack_var = StringVar(value="10")
-    batch_var = StringVar(value="24025")
-    exp_var = StringVar(value="May-28")
-    mrp_var = StringVar(value="100")
-    qty_var = StringVar(value="10")
-    rate_var = StringVar(value="10")
+    hsn_var = StringVar()
+    pack_var = StringVar()
+    batch_var = StringVar()
+    exp_var = StringVar()
+    mrp_var = StringVar()
+    qty_var = StringVar()
+    gst_prod_var = StringVar()
+    rate_var = StringVar()
     gross_total_var = StringVar()
     net_amount_var = StringVar()
 
 
     products = load_json("data/products.json")
-    product_names = [c["Product Name"] for c in products.values()]
-    product_lookup = {c["Product Name"]: c for c in products.values()}
-
-    def refresh_product_fields():
-        prod_name = selected_product.get()
-        prod = product_lookup.get(prod_name, {})
-        product_name_var.set(prod.get("Product Name", prod_name))  # fallback
-        hsn_var.set(prod.get("HSN", ""))
-        pack_var.set(prod.get("Pack", ""))
-        batch_var.set(prod.get("Batch", ""))
-        exp_var.set(prod.get("Exp", ""))
-        mrp_var.set(prod.get("MRP", ""))
-        qty_var.set("1")  # reset to 1 or prod.get("Qty/Pack", "") if you store it
-        rate_var.set(prod.get("Rate", ""))
+    product_names = [c["product-name"] for c in products.values()]
+    product_lookup = {c["product-name"]: c for c in products.values()}
 
     def on_product_select(event=None):
         prod_name = selected_product.get()
         prod = product_lookup.get(prod_name, {})
-        product_name_var.set(prod.get("Product Name", prod_name))  # fallback to dropdown text
-        hsn_var.set(prod.get("HSN", ""))
-        pack_var.set(prod.get("Pack", ""))
-        batch_var.set(prod.get("Batch", ""))
-        exp_var.set(prod.get("Exp", ""))
-        mrp_var.set(prod.get("MRP", ""))
-        rate_var.set(prod.get("Rate", ""))
+        product_name_var.set(prod.get("product-name", prod_name))  # fallback
+        hsn_var.set(prod.get("hsn", ""))
+        pack_var.set(prod.get("pack", ""))
+        batch_var.set(prod.get("batch", ""))
+        exp_var.set(prod.get("exp", ""))
+        mrp_var.set(prod.get("mrp", ""))
+        qty_var.set(prod.get("qty-per-pack", "1"))  # reset to 1 or prod.get("Qty/Pack", "") if you store it
+        gst_prod_var.set(prod.get("gst"))
+        rate_var.set(prod.get("rate", ""))
 
     frame3 = Frame(billing_root)
     frame3.pack(pady=5)
@@ -291,9 +282,11 @@ def start_billing_app(parent_root=None):
     Entry(frame3, textvariable=qty_var, width=5).grid(row=0, column=11)
     Label(frame3, text="Rate:").grid(row=0, column=12)
     Entry(frame3, textvariable=rate_var, width=5).grid(row=0, column=13)
-    Button(frame3, text="Add Product", command=add_product).grid(row=0, column=14)
-    Button(frame3, text="Remove Selected", command=remove_selected).grid(row=0, column=15)
-    Button(frame3, text="🔄", command=refresh_product_fields).grid(row=0, column=16)
+    Label(frame3, text="GST:").grid(row=0, column=13)
+    Entry(frame3, textvariable=gst_prod_var, width=5).grid(row=0, column=14)
+    Button(frame3, text="Add Product", command=add_product).grid(row=0, column=15)
+    Button(frame3, text="Remove Selected", command=remove_selected).grid(row=0, column=16)
+    Button(frame3, text="🔄", command=on_product_select).grid(row=0, column=17)
     # Product Column view
     cols = ["S.No", "HSN", "Product", "Pack", "Batch", "Exp", "MRP", "Qty", "GST", "Rate", "Value", "Amount"]
     tree = ttk.Treeview(billing_root, columns=cols, show='headings')
@@ -335,15 +328,15 @@ def start_billing_app(parent_root=None):
             prod_name = entry[2]
             if prod_name not in product_lookup:
                 new_product = {
-                    "Product Name": prod_name,
-                    "HSN": entry[1],
-                    "Pack": entry[3],
-                    "Batch": entry[4],
-                    "Exp": entry[5],
-                    "MRP": entry[6],
-                    "Qty/Pack": entry[7],
-                    "GST": entry[8],
-                    "Rate": entry[9]
+                    "product-name": prod_name,
+                    "hsn": entry[1],
+                    "pack": entry[3],
+                    "batch": entry[4],
+                    "exp": entry[5],
+                    "mrp": entry[6],
+                    "qty-per-pack": entry[7],
+                    "gst": entry[8],
+                    "rate": entry[9]
                 }
                 products[prod_name] = new_product
                 product_lookup[prod_name] = new_product
