@@ -41,7 +41,11 @@ def start_billing_app(parent_root=None):
         batch = batch_var.get().strip()
         exp = exp_var.get().strip()
         mrp = float(mrp_var.get())
-        qty = int(qty_var.get())
+        qty = 1
+        try:
+            qty = int(qty_var.get())
+        except:
+            pass
         gst_add_product = float(gst_prod_var.get())
         rate = float(rate_var.get())
         value = qty * rate
@@ -259,7 +263,7 @@ def start_billing_app(parent_root=None):
         batch_var.set(prod.get("batch", ""))
         exp_var.set(prod.get("exp", ""))
         mrp_var.set(prod.get("mrp", ""))
-        qty_var.set(prod.get("qty-per-pack", "1"))  # reset to 1 or prod.get("Qty/Pack", "") if you store it
+        #qty_var.set(prod.get("quantity", "1"))  # reset to 1 or prod.get("Qty/Pack", "") if you store it
         gst_prod_var.set(prod.get("gst"))
         rate_var.set(prod.get("rate", ""))
 
@@ -288,7 +292,7 @@ def start_billing_app(parent_root=None):
     Button(frame3, text="Remove Selected", command=remove_selected).grid(row=0, column=16)
     Button(frame3, text="🔄", command=on_product_select).grid(row=0, column=17)
     # Product Column view
-    cols = ["S.No", "HSN", "Product", "Pack", "Batch", "Exp", "MRP", "Qty", "GST (%)", "Rate", "Value", "Amount"]
+    cols = ["S.No", "HSN", "Product", "Pack Of", "Batch", "Exp", "MRP", "Qty", "GST (%)", "Rate", "Value", "Amount"]
     tree = ttk.Treeview(billing_root, columns=cols, show='headings')
     for col in cols:
         tree.heading(col, text=col)
@@ -334,7 +338,7 @@ def start_billing_app(parent_root=None):
                     "batch": entry[4],
                     "exp": entry[5],
                     "mrp": entry[6],
-                    "qty-per-pack": entry[7],
+                    # "qty": entry[7],
                     "gst": entry[8],
                     "rate": entry[9]
                 }

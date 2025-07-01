@@ -16,17 +16,17 @@ def open_product_form(parent_window, refresh_callback, existing_data=None, produ
     form = Toplevel(parent_window)
     form.title("Add/Edit Product")
 
-    fields = ["Product Name", "HSN", "Total Pack", "Batch", "Expiry", "MRP", "Qty/Pack", "GST %", "Rate"]
+    fields = ["Product Name", "HSN", "Pack Of", "Batch", "Expiry", "MRP", "Qty", "GST %", "Rate"]
     entries = {}
 
     field_key_map = {
         "Product Name": "product-name",
         "HSN": "hsn",
-        "Total Pack": "pack",
+        "Pack Of": "pack",
         "Batch": "batch",
         "Expiry": "exp",
         "MRP": "mrp",
-        "Qty/Pack": "qty-per-pack",
+        "Qty": "qty",
         "GST %": "gst",
         "Rate": "rate"
     }
