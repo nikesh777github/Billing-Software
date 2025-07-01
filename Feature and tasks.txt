@@ -18,7 +18,7 @@ Done:
 
 Todo:
 
-1. Show HSN values on right side, for customer info n create_recipt page
+1. Show HSN values on right side, for customer info n create_receipt page
     e.g.    HSN     GST %
             35035   5%
 4. User History > store PDF data, info, amount paid and remaining, etc like graph

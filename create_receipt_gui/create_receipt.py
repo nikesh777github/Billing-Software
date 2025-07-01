@@ -384,7 +384,7 @@ def start_billing_app(parent_root=None):
         repeat = 2 if duplicate_bill_var.get() else 1
         section_height = height // repeat
 
-        col_widths = [30, 40, 120, 30, 35, 40, 40, 40, 25, 40, 40, 50]
+        col_widths = [30, 40, 120, 35, 35, 40, 40, 35, 25, 40, 40, 50]
         x_positions = [30]
         for w in col_widths[:-1]:
             x_positions.append(x_positions[-1] + w)
