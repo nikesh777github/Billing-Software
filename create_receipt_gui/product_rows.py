@@ -23,8 +23,11 @@ def draw_product_rows(c, entries, x_positions, col_widths, start_y, row_height=2
         c.line(x_positions[-1] + col_widths[-1], y, x_positions[-1] + col_widths[-1], y - row_height)
 
         # Text
+        # for i, item in enumerate(row):
+        #     c.drawString(x_positions[i] + 2, y - 15, str(item))
         for i, item in enumerate(row):
-            c.drawString(x_positions[i] + 2, y - 15, str(item))
+            cell_center = x_positions[i] + (col_widths[i] / 2)
+            c.drawCentredString(cell_center, y - 15, str(item))  # Vertically slightly above bottom
 
         y -= row_height
 

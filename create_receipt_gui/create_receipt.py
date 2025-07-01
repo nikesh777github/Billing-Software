@@ -66,7 +66,7 @@ def start_billing_app(parent_root=None):
             sr_no = len(product_entries) + 1
             product_entries.append([
                 sr_no, hsn, name, pack, batch, exp, mrp, qty,
-                f"{gst_add_product}%", rate, value, amount
+                gst_add_product, rate, value, amount
             ])
 
         # Reassign serial numbers
@@ -288,11 +288,11 @@ def start_billing_app(parent_root=None):
     Button(frame3, text="Remove Selected", command=remove_selected).grid(row=0, column=16)
     Button(frame3, text="🔄", command=on_product_select).grid(row=0, column=17)
     # Product Column view
-    cols = ["S.No", "HSN", "Product", "Pack", "Batch", "Exp", "MRP", "Qty", "GST", "Rate", "Value", "Amount"]
+    cols = ["S.No", "HSN", "Product", "Pack", "Batch", "Exp", "MRP", "Qty", "GST (%)", "Rate", "Value", "Amount"]
     tree = ttk.Treeview(billing_root, columns=cols, show='headings')
     for col in cols:
         tree.heading(col, text=col)
-        tree.column(col, width=70)
+        tree.column(col, anchor="center", width=70)
     tree.pack(pady=5)
     # Enable double-click editing
     enable_inline_editing(tree, product_entries, update_tree)
