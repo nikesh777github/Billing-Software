@@ -37,3 +37,8 @@ Todo:
    Expected: If new customer adds from Manage Customer or Create-receipt,
             uuid should be json entry name, not customer name, it is creating
             conflict
+
+10. History using invoice
+11. Invoice number prefix e.g. FY25-invoice_number
+12. Qty must be int not float
+13. Create_receipt business details show at different place
