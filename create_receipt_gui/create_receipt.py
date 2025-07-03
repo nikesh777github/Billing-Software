@@ -15,6 +15,7 @@ from create_receipt_gui.product_rows import draw_product_rows
 from create_receipt_gui.summary_row import draw_summary_row
 from create_receipt_gui.to_box import draw_to_box
 from customer_details_gui.customer_storage import update_customer_history_and_pending
+from pop_ups_gui.customer_name_blank_popup import confirm_blank_customer, confirm_no_products
 from utils.inline_edit import enable_inline_editing
 from utils.load_json import load_json
 
@@ -371,8 +372,15 @@ def start_billing_app(parent_root=None):
     def generate_pdf():
         save_new_customer()
         save_new_products()
-        if not cust_name_var.get():
+        # if not cust_name_var.get():
+        #     cust_name_var.set(selected_customer.get())
+        if not cust_name_var.get().strip():
+            if not confirm_blank_customer():
+                return
             cust_name_var.set(selected_customer.get())
+        if not product_entries:
+            if not confirm_no_products():
+                return
         now = datetime.datetime.now()
         timestamp = now.strftime("%d-%m-%y-%H-%M-%S")
         filename = f"{cust_name_var.get()}-{timestamp}.pdf"
