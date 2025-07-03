@@ -28,7 +28,7 @@ def draw_product_rows(c, entries, x_positions, col_widths, start_y, row_height=2
             if i == 8:  # GST column index
                 try:
                     gst_float = float(item)
-                    text = f"{int(gst_float)}%"
+                    text = f"{float(gst_float)}%"
                 except:
                     pass
             c.drawCentredString(cell_center, y - 15, text)  # Vertically slightly above bottom

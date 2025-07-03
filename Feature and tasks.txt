@@ -16,7 +16,7 @@ Done:
 14. Products values keep in center
 15. While adding product GST % symbol should not be visible in editable box, show in headline as GST(%) only
 16. When adding a product, and try to add same product with updated Qty, new row is added, instead it should replace Qty in existing row
-
+17. if customer name/ product name is blank give popup before generate pdf
 Todo:
 
 1. Show HSN values on right side, for customer info n create_receipt page
@@ -25,4 +25,15 @@ Todo:
 4. User History > store PDF data, info, amount paid and remaining, etc like graph
 5. .exe file for this software
 5.1. PDF generate where .exe is installed
-6. if customer name is blank don't generate pdf
+6. After editing GST while adding product with float value e.g. 13.9, then calculation is correct,
+   but generated pdf shows only 13% instead of 13.9%
+7. In manage customer if new customer added then name modified on create receipt then history
+   won't ever generates on logs, it creates ne json entry with customer-name as json name
+8. On create receipt if we add new customer, even if all fiels are added, still popup
+   shows customer name is blank, but generates correct data on pdf, and history generated
+9. While adding customer from manage customer uuid becomes json name, while adding customer from
+   create-receipt customer name becomes json name
+
+   Expected: If new customer adds from Manage Customer or Create-receipt,
+            uuid should be json entry name, not customer name, it is creating
+            conflict
