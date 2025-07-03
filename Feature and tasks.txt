@@ -15,6 +15,7 @@ Done:
 13. Can change GST% at time of entering product, just press enter after editing HSN
 14. Products values keep in center
 15. While adding product GST % symbol should not be visible in editable box, show in headline as GST(%) only
+16. When adding a product, and try to add same product with updated Qty, new row is added, instead it should replace Qty in existing row
 
 Todo:
 
@@ -25,4 +26,3 @@ Todo:
 5. .exe file for this software
 5.1. PDF generate where .exe is installed
 6. if customer name is blank don't generate pdf
-7. When adding a product, and try to add same product with updated Qty, new row is added, instead it should replace Qty in existing row
