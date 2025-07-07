@@ -1,11 +1,19 @@
+import sys
 from reportlab.lib import colors
-
 from utils.upload_img import draw_footer_image
+import os
 
 
 def draw_footer_box(c, x_positions, col_widths, y, net_amount):
-    sign_img_path = r"C:\Users\nikes\Downloads\Saurav-sign.png"
-    qr_img_path = r"C:\Users\nikes\Downloads\Saurav-scanner.jpeg"
+    # sign_img_path = r"C:\Users\nikes\Downloads\Saurav-sign.png"
+    # qr_img_path = r"C:\Users\nikes\Downloads\Saurav-scanner.jpeg"
+
+    # sign_img_path = os.path.join("images", "Saurav-sign.png")
+    # qr_img_path = os.path.join("images", "Saurav-scanner.png")
+
+    sign_img_path = resource_path(os.path.join("images", "Saurav-sign.png"))
+    qr_img_path = resource_path(os.path.join("images", "Saurav-scanner.png"))
+
     box_height = 70
     box_y = y - 10 - box_height
     box_x = x_positions[0]
@@ -72,3 +80,8 @@ def draw_footer_box(c, x_positions, col_widths, y, net_amount):
     # Add Scanner
     draw_footer_image(c, box_x + 105, box_y+5, 90, qr_img_path, height=60)
     return box_y
+
+def resource_path(relative_path):
+    """ Get absolute path to resource (for dev and for PyInstaller) """
+    base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
+    return os.path.join(base_path, relative_path)

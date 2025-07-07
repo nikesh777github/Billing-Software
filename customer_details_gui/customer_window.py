@@ -2,13 +2,14 @@ from tkinter import *
 
 from customer_details_gui.customer_delete import delete_customer
 from customer_details_gui.customer_form import open_customer_form
+from customer_details_gui.customer_history import open_customer_history
 from customer_details_gui.customer_storage import load_customers
 
 
 def open_customer_window(parent_root=None):
     window = Toplevel()
     window.title("Manage Customers")
-    window.geometry("700x500")
+    window.geometry("1200x600")
 
     def refresh_display():
         for widget in display_frame.winfo_children():
@@ -32,8 +33,19 @@ def open_customer_window(parent_root=None):
             btn_frame = Frame(container)
             btn_frame.pack(anchor="e", pady=5)
 
-            Button(btn_frame, text="📝 Edit", command=lambda c=cid, d=details: open_customer_form(window, refresh_display, d, c)).pack(side=LEFT, padx=5)
-            Button(btn_frame, text="🗑️ Delete", command=lambda c=cid: delete_customer(c, refresh_display)).pack(side=LEFT)
+            # Button(btn_frame, text="📝 Edit", command=lambda c=cid, d=details: open_customer_form(window, refresh_display, d, c)).pack(side=LEFT, padx=5)
+            # Button(btn_frame, text="🗑️ Delete", command=lambda c=cid: delete_customer(c, refresh_display)).pack(side=LEFT)
+
+            Button(btn_frame, text="📝 Edit",
+                   command=lambda c=cid, d=details: open_customer_form(window, refresh_display, d, c),
+                   bg="#2ecc71", fg="white", relief="flat", font=("Segoe UI", 9), padx=10).pack(side=LEFT, padx=5)
+
+            Button(btn_frame, text="🗑️ Delete", command=lambda c=cid: delete_customer(c, refresh_display),
+                   bg="#e74c3c", fg="white", relief="flat", font=("Segoe UI", 9), padx=10).pack(side=LEFT, padx=5)
+
+            Button(btn_frame, text="📊 Logs",
+                   command=lambda name=details.get("Customer Name", "Unknown"): open_customer_history(name),
+                   bg="#3498db", fg="white", relief="flat", font=("Segoe UI", 9), padx=10).pack(side=LEFT, padx=5)
 
     # GUI Setup
     # root = Tk()

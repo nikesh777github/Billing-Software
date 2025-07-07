@@ -4,8 +4,8 @@ from reportlab.lib import colors
 
 def draw_table_headers(c, x_positions, col_widths, y, row_height=20):
     headers = [
-        "Sr.No", "HSN", "Product Name", "Pack", "Batch", "Exp",
-        "MRP", "Qty/Pack", "GST", "Rate", "Value", "Amount"
+        "Sr.No", "HSN", "Product Name", "Pack Of", "Batch", "Exp",
+        "MRP", "Qty", "GST", "Rate", "Value", "Amount"
     ]
 
     # Draw outer rectangle

@@ -8,7 +8,7 @@ from product_details_gui.product_storage import load_products
 def open_product_window(parent_root=None):
     window = Toplevel()
     window.title("Manage Products")
-    window.geometry("700x500")
+    window.geometry("1200x600")
 
     def refresh_display():
         for widget in display_frame.winfo_children():

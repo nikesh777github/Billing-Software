@@ -1,6 +1,17 @@
 {
-    "abcd": {
-        "Product Name": "abcd",
+    "gdhgsfds": {
+        "Product Name": "gdhgsfds",
+        "HSN": "12345",
+        "Pack": "10",
+        "Batch": "24025",
+        "Exp": "May-28",
+        "MRP": 100.0,
+        "Qty/Pack": 10,
+        "GST": "5%",
+        "Rate": 10.0
+    },
+    "medicines": {
+        "Product Name": "medicines",
         "HSN": "12345",
         "Pack": "10",
         "Batch": "24025",

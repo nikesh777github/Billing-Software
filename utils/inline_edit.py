@@ -38,12 +38,22 @@ def enable_inline_editing(tree, product_entries, update_tree):
 
             product[col_index] = new_val
 
+            # Re-fetch and parse updated values safely
             try:
-                qty = int(product[7])
-                rate = float(product[9])
-                gst_rate = float(product[8].replace('%', '')) / 100
+                qty = int(product[7]) if col_index != 7 else int(new_val)
             except:
-                qty, rate, gst_rate = 1, 0, 0.05
+                qty = 1
+
+            try:
+                rate = float(product[9]) if col_index != 9 else float(new_val)
+            except:
+                rate = 0
+
+            try:
+                gst_raw = product[8] if col_index != 8 else str(new_val)
+                gst_rate = float(gst_raw.replace('%', '')) / 100
+            except:
+                gst_rate = 0.05
 
             value = qty * rate
             amount = value + (value * gst_rate)

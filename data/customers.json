@@ -1,10 +1,19 @@
 {
-    "ghj": {
-        "Customer Name": "ghj",
-        "Address Line 1": "dhaj",
-        "Address Line 2": "mnbvb",
-        "Contact": "7648172",
-        "GST No": "hsgt",
-        "DL No": "shjad"
+    "xyz1": {
+        "Customer Name": "xyz1",
+        "Address Line 1": "xyz2",
+        "Address Line 2": "xyz3",
+        "Contact": "xyz4",
+        "GST No": "xyz5",
+        "DL No": "xyz6",
+        "history": [
+            {
+                "date": "28-06-2025",
+                "invoice": "16",
+                "status": "CREDIT",
+                "amount": 105.0
+            }
+        ],
+        "pending": 105.0
     }
 }

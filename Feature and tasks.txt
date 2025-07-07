@@ -3,19 +3,49 @@ Done:
 1. New Customer / product added in create-receipt gets added in DB
 2. Bug fixed- New row created for same product is solved
 3. When we are adding product or customer or create-receipt, it should open in existing tab not in new tab, give back button to every tab
-5. Net Amount should be displayed slightly lower
-6. Signature and QR image
-
-
+4. Net Amount should be displayed slightly lower
+5. Signature and QR image
+6. Selected Business Details should be visible in create-receipt tab
+7. Increase Invoice Number if bill generates, invoice number can be different for different businesses
+8. Product with blank name shouldn't be allowed to add in bill
+9. if we change product values and then select another product, then all values should change to default for that selected product
+10. Checkbox to generate same bill twice on same A4 paper
+11. if invoice no is not present in record, default 1 should be displayed
+12. Increase GST Invoice box font
+13. Can change GST% at time of entering product, just press enter after editing HSN
+14. Products values keep in center
+15. While adding product GST % symbol should not be visible in editable box, show in headline as GST(%) only
+16. When adding a product, and try to add same product with updated Qty, new row is added, instead it should replace Qty in existing row
+17. if customer name/ product name is blank give popup before generate pdf
 
 Todo:
 
-1. Selected Business Details should be visible in create-receipt tab
-2. HSN checkbox for multiple values, if more than 3 values, give dropdown
-3. Increase GST Invoice box font
-4. Products values keep in center
-5. User History > store PDF data, info, amount paid and remaining, etc like graph
-6. Checkbox to generate same bill twice on same A4 paper
-7. .exe file for this software
-7.1. PDF generate where .exe is installed
+1. Show HSN values on right side, for customer info n create_receipt page
+    e.g.    HSN     GST %
+            35035   5%
+4. User History > store PDF data, info, amount paid and remaining, etc like graph
+5. .exe file for this software
+5.1. PDF generate where .exe is installed
+6. After editing GST while adding product with float value e.g. 13.9, then calculation is correct,
+   but generated pdf shows only 13% instead of 13.9%
+7. In manage customer if new customer added then name modified on create receipt then history
+   won't ever generates on logs, it creates ne json entry with customer-name as json name
+8. On create receipt if we add new customer, even if all fiels are added, still popup
+   shows customer name is blank, but generates correct data on pdf, and history generated
+9. While adding customer from manage customer uuid becomes json name, while adding customer from
+   create-receipt customer name becomes json name
 
+   Expected: If new customer adds from Manage Customer or Create-receipt,
+            uuid should be json entry name, not customer name, it is creating
+            conflict
+
+10. History using invoice
+11. Invoice number prefix e.g. FY25-invoice_number
+12. Qty must be int not float
+13. Create_receipt business details show at different place
+
+
+
+i have an idea, in create_receipt, UI will look like below,
+1. left side bar will have business owner details, below that options such as Main Menu, Manage Customers, Manage Products, Manage business,
+2. Right section will have all create_receipt fuctions
