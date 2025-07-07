@@ -8,8 +8,8 @@ from product_details_gui.product_storage import load_products
 def open_product_window(parent_root=None):
     window = Toplevel()
     window.title("Manage Products")
-    window.geometry("1200x600")
-
+    # window.geometry("1200x600")
+    window.state('zoomed')
     def refresh_display():
         for widget in display_frame.winfo_children():
             widget.destroy()
@@ -44,6 +44,7 @@ def open_product_window(parent_root=None):
         window.destroy()
         if parent_root:
             parent_root.deiconify()
+            parent_root.state('zoomed')
     # Buttons at the top
     Button(window, text="➕ Add Product", command=lambda: open_product_form(window, refresh_display)).pack(pady=10)
     Button(window, text="🔙 Back", command=go_back_to_main, bg="lightgrey").pack(pady=5)

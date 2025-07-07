@@ -7,9 +7,9 @@ from add_personal_data_gui.business_storage import load_businesses, delete_busin
 def open_add_data_window(parent_root=None):
     window = Toplevel()
     window.title("Manage Businesses")
-    window.geometry("1200x600")
+    # window.geometry("1200x600")
     window.configure(bg="#f0f2f5")
-
+    window.state('zoomed')
     title_font = font.Font(family="Segoe UI", size=16, weight="bold")
     label_font = font.Font(family="Segoe UI", size=10)
 
@@ -20,7 +20,7 @@ def open_add_data_window(parent_root=None):
         window.destroy()
         if parent_root:
             parent_root.deiconify()
-
+            parent_root.state('zoomed')
     # Back button
     top_bar = Frame(window, bg="#f0f2f5")
     top_bar.pack(fill=X, pady=10, padx=10)

@@ -10,7 +10,7 @@ def open_customer_window(parent_root=None):
     window = Toplevel()
     window.title("Manage Customers")
     window.geometry("1200x600")
-
+    window.state('zoomed')
     def refresh_display():
         for widget in display_frame.winfo_children():
             widget.destroy()
@@ -56,7 +56,7 @@ def open_customer_window(parent_root=None):
         window.destroy()
         if parent_root:
             parent_root.deiconify()  # Show main menu again
-
+            parent_root.state('zoomed')
     Button(window, text="🔙 Back", command=go_back_to_main, bg="lightgrey").pack(pady=5)
     Button(window, text="➕ Add Customer", command=lambda: open_customer_form(window, refresh_display)).pack(pady=10)
 

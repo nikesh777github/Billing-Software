@@ -2,16 +2,16 @@ from tkinter import *
 from tkinter import font
 
 from add_personal_data_gui.personal_details import open_add_data_window
-from create_receipt_gui.create_receipt import start_billing_app
+from create_receipt_gui.create_receipt import create_receipt_window
 from customer_details_gui.customer_window import open_customer_window
 from product_details_gui.product_window import open_product_window
 
 def main_menu():
     root = Tk()
-    root.geometry("1200x600")
+    # root.geometry("1200x600")
     root.title("Billing Software")
     root.configure(bg="#f2f2f2")
-
+    root.state('zoomed')
     tile_font = font.Font(family="Segoe UI", size=12, weight="bold")
 
     # Exit Button (top-right corner)
@@ -33,7 +33,7 @@ def main_menu():
                font=("Arial", 10), padx=8, pady=4).pack(pady=(0, 10))
 
     # Create tiles (5 across)
-    make_tile("🧾", "Create Receipt", lambda: start_billing_app(root), 0)
+    make_tile("🧾", "Create Receipt", lambda: create_receipt_window(root), 0)
     make_tile("📦", "Business Details", lambda: open_add_data_window(root), 1)
     make_tile("🏷️", "Manage Products", lambda: open_product_window(root), 2)
     make_tile("👤", "Manage Customers", lambda: open_customer_window(root), 3)

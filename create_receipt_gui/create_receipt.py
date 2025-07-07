@@ -20,7 +20,7 @@ from utils.inline_edit import enable_inline_editing
 from utils.load_json import load_json
 
 
-def start_billing_app(parent_root=None):
+def create_receipt_window(parent_root=None):
     global billing_root, status_var, cust_name_var, cust_addr1_var
     global cust_addr2_var, cust_contact_var, cust_gst_var, cust_dl_var
     global product_name_var, pack_var, batch_var, exp_var
@@ -105,13 +105,13 @@ def start_billing_app(parent_root=None):
 
     billing_root = Toplevel()
     billing_root.title("Billing Software")
-    billing_root.geometry("1200x600")
-
+    # billing_root.geometry("1200x600")
+    billing_root.state('zoomed')
     def go_back_to_main():
         billing_root.destroy()
         if parent_root:
             parent_root.deiconify()  # Show main menu again
-
+            parent_root.state('zoomed')
     top_bar = Frame(billing_root, bg="#f0f2f5")
     top_bar.pack(fill=X, pady=10, padx=10)
 
