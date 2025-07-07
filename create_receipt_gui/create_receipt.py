@@ -112,9 +112,20 @@ def start_billing_app(parent_root=None):
         if parent_root:
             parent_root.deiconify()  # Show main menu again
 
-    Button(billing_root, text="← Back to Menu", command=go_back_to_main, bg="lightgrey").pack(pady=5)
+    top_bar = Frame(billing_root, bg="#f0f2f5")
+    top_bar.pack(fill=X, pady=10, padx=10)
 
-    billing_root.title("Billing Software")
+    Button(top_bar, text="<- BACK", command=go_back_to_main, bg="#dcdcdc", font=("Segoe UI", 10), relief="flat", padx=10).pack(side="left")
+
+
+    # Button(top_bar, text="← Back", command=go_back_to_main, bg="#dcdcdc", font=("Segoe UI", 10), relief="flat",
+    #        padx=10).pack(side=LEFT)
+    #
+    # Button(top_bar, text="➕ Add Business", command=lambda: open_personal_details_form(window, refresh_display),
+    #        bg="#3498db", fg="white", font=("Segoe UI", 10, "bold"), relief="flat", padx=12, pady=4).pack(side=RIGHT)
+
+
+    billing_root.title("Create Receipt 📝")
 
 
     frame1 = Frame(billing_root)
@@ -163,22 +174,22 @@ def start_billing_app(parent_root=None):
 
     # Displaying Business Values on Create Receipt (read-only)
     ttk.Label(frame1, text="Business Name:").grid(row=1, column=0, sticky="w")
-    ttk.Entry(frame1, textvariable=bus_name, state="readonly", width=30).grid(row=1, column=1, padx=5, pady=2)
+    ttk.Label(frame1, textvariable=bus_name, state="readonly", width=30).grid(row=1, column=1, padx=5, pady=2)
 
     ttk.Label(frame1, text="Address Line 1:").grid(row=2, column=0, sticky="w")
-    ttk.Entry(frame1, textvariable=adr_l1, state="readonly", width=30).grid(row=2, column=1, padx=5, pady=2)
+    ttk.Label(frame1, textvariable=adr_l1, state="readonly", width=30).grid(row=2, column=1, padx=5, pady=2)
 
     ttk.Label(frame1, text="Address Line 2:").grid(row=3, column=0, sticky="w")
-    ttk.Entry(frame1, textvariable=adr_l2, state="readonly", width=30).grid(row=3, column=1, padx=5, pady=2)
+    ttk.Label(frame1, textvariable=adr_l2, state="readonly", width=30).grid(row=3, column=1, padx=5, pady=2)
 
     ttk.Label(frame1, text="Contact:").grid(row=4, column=0, sticky="w")
-    ttk.Entry(frame1, textvariable=contact, state="readonly", width=30).grid(row=4, column=1, padx=5, pady=2)
+    ttk.Label(frame1, textvariable=contact, state="readonly", width=30).grid(row=4, column=1, padx=5, pady=2)
 
     ttk.Label(frame1, text="Email:").grid(row=5, column=0, sticky="w")
-    ttk.Entry(frame1, textvariable=email, state="readonly", width=30).grid(row=5, column=1, padx=5, pady=2)
+    ttk.Label(frame1, textvariable=email, state="readonly", width=30).grid(row=5, column=1, padx=5, pady=2)
 
     ttk.Label(frame1, text="GSTIN:").grid(row=6, column=0, sticky="w")
-    ttk.Entry(frame1, textvariable=gst, state="readonly", width=30).grid(row=6, column=1, padx=5, pady=2)
+    ttk.Label(frame1, textvariable=gst, state="readonly", width=30).grid(row=6, column=1, padx=5, pady=2)
 
 
     # Invoice Frame
@@ -186,7 +197,7 @@ def start_billing_app(parent_root=None):
     Entry(frame1, textvariable=invoice_no).grid(row=0, column=3, padx=5, pady=2)
 
     ttk.Label(frame1, text="Original Invoice No:").grid(row=1, column=2, sticky="w")
-    ttk.Entry(frame1, textvariable=prev_invoice_no, state="readonly", width=10).grid(row=1, column=3, padx=5, pady=2)
+    ttk.Label(frame1, textvariable=prev_invoice_no, state="readonly", width=10).grid(row=1, column=3, padx=5, pady=2)
 
     status_var = StringVar(value="CREDIT")
     Label(frame1, text="Status:").grid(row=2, column=2)

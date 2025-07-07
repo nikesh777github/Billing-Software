@@ -17,6 +17,7 @@ Done:
 15. While adding product GST % symbol should not be visible in editable box, show in headline as GST(%) only
 16. When adding a product, and try to add same product with updated Qty, new row is added, instead it should replace Qty in existing row
 17. if customer name/ product name is blank give popup before generate pdf
+
 Todo:
 
 1. Show HSN values on right side, for customer info n create_receipt page
@@ -42,3 +43,9 @@ Todo:
 11. Invoice number prefix e.g. FY25-invoice_number
 12. Qty must be int not float
 13. Create_receipt business details show at different place
+
+
+
+i have an idea, in create_receipt, UI will look like below,
+1. left side bar will have business owner details, below that options such as Main Menu, Manage Customers, Manage Products, Manage business,
+2. Right section will have all create_receipt fuctions
